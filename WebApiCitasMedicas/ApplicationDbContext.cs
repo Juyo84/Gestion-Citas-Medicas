@@ -24,6 +24,7 @@ namespace WebApiCitasMedicas
         public DbSet<Medico> Medicos { get; set; }
         public DbSet<Paciente> Pacientes { get; set; }
         public DbSet<Cita> Citas { get; set; }
+        public DbSet<HistorialMedico> HistorialMedicos { get; set; }
 
 
 

@@ -90,3 +90,4 @@ C:\Users\HP\Downloads\WebApiCitasMedicas\WebApiCitasMedicas\obj\Debug\net6.0\ref
 C:\Users\HP\Downloads\WebApiCitasMedicas\WebApiCitasMedicas\obj\Debug\net6.0\WebApiCitasMedicas.pdb
 C:\Users\HP\Downloads\WebApiCitasMedicas\WebApiCitasMedicas\obj\Debug\net6.0\WebApiCitasMedicas.genruntimeconfig.cache
 C:\Users\HP\Downloads\WebApiCitasMedicas\WebApiCitasMedicas\obj\Debug\net6.0\ref\WebApiCitasMedicas.dll
+C:\Users\HP\Downloads\WebApiCitasMedicas\WebApiCitasMedicas\bin\Debug\net6.0\AutoMapper.dll

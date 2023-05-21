@@ -12,7 +12,7 @@ using WebApiCitasMedicas;
 namespace WebApiCitasMedicas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230521005850_Inicial")]
+    [Migration("20230521072435_Inicial")]
     partial class Inicial
     {
         /// <inheritdoc />
@@ -243,6 +243,26 @@ namespace WebApiCitasMedicas.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Citas");
+                });
+
+            modelBuilder.Entity("WebApiCitasMedicas.Entidades.HistorialMedico", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PacienteId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HistorialMedicos");
                 });
 
             modelBuilder.Entity("WebApiCitasMedicas.Entidades.Medico", b =>

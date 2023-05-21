@@ -27,26 +27,58 @@ namespace WebApiCitasMedicas.Controllers
 
         }
 
+        /**
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<Cita>> GetById(int id)
+        {
+            var citas = await dbContext.Citas.Where(x => x.MedicoId == id).ToListAsync();
+
+            return mapper.Map<List>
+        }
+        **/
+
         [HttpPost]
 
         public async Task<ActionResult> Post(Cita cita)
         {
 
             var existeMedico = await dbContext.Medicos.AnyAsync(c => c.Id == cita.MedicoId);
-
+            
             if (!existeMedico)
             {
 
-                return BadRequest("No existe el dueño");
+                return BadRequest("No existe el medico");
 
             }
-
+            
             var existePaciente = await dbContext.Pacientes.AnyAsync(c => c.Id == cita.PacienteId);
 
             if (!existePaciente)
             {
 
                 return BadRequest("No existe el paciente");
+
+            }
+
+            var pacientesMedico = new List<int>();
+            var listaCitas = await dbContext.Citas.ToListAsync();
+
+            foreach (var listaCita in listaCitas)
+            {
+
+                if (listaCita.MedicoId == cita.MedicoId && pacientesMedico.FindIndex(a => a == listaCita.PacienteId) == -1)
+                {
+
+                    pacientesMedico.Add(listaCita.Id);
+
+                }
+
+            }
+            
+            if(pacientesMedico.Count() > 2)
+            {
+
+                return BadRequest("Se paso de limite de pacientes");
 
             }
 

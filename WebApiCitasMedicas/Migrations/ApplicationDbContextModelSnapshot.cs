@@ -242,6 +242,26 @@ namespace WebApiCitasMedicas.Migrations
                     b.ToTable("Citas");
                 });
 
+            modelBuilder.Entity("WebApiCitasMedicas.Entidades.HistorialMedico", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Descripcion")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PacienteId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HistorialMedicos");
+                });
+
             modelBuilder.Entity("WebApiCitasMedicas.Entidades.Medico", b =>
                 {
                     b.Property<int>("Id")

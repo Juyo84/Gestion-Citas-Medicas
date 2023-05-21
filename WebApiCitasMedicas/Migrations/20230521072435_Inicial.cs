@@ -66,6 +66,20 @@ namespace WebApiCitasMedicas.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "HistorialMedicos",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Descripcion = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PacienteId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HistorialMedicos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Medicos",
                 columns: table => new
                 {
@@ -263,6 +277,9 @@ namespace WebApiCitasMedicas.Migrations
 
             migrationBuilder.DropTable(
                 name: "Citas");
+
+            migrationBuilder.DropTable(
+                name: "HistorialMedicos");
 
             migrationBuilder.DropTable(
                 name: "Medicos");
