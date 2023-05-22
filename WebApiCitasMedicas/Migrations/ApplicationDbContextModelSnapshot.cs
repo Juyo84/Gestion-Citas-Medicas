@@ -239,10 +239,6 @@ namespace WebApiCitasMedicas.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MedicoId");
-
-                    b.HasIndex("PacienteId");
-
                     b.ToTable("Citas");
                 });
 
@@ -371,30 +367,6 @@ namespace WebApiCitasMedicas.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("WebApiCitasMedicas.Entidades.Cita", b =>
-                {
-                    b.HasOne("WebApiCitasMedicas.Entidades.Medico", "Medico")
-                        .WithMany("Cita")
-                        .HasForeignKey("MedicoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApiCitasMedicas.Entidades.Paciente", "Paciente")
-                        .WithMany()
-                        .HasForeignKey("PacienteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Medico");
-
-                    b.Navigation("Paciente");
-                });
-
-            modelBuilder.Entity("WebApiCitasMedicas.Entidades.Medico", b =>
-                {
-                    b.Navigation("Cita");
                 });
 #pragma warning restore 612, 618
         }

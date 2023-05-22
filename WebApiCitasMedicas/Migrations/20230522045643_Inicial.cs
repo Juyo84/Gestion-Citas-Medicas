@@ -51,6 +51,21 @@ namespace WebApiCitasMedicas.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Citas",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    MedicoId = table.Column<int>(type: "int", nullable: false),
+                    PacienteId = table.Column<int>(type: "int", nullable: false),
+                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Citas", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "HistorialMedicos",
                 columns: table => new
                 {
@@ -202,33 +217,6 @@ namespace WebApiCitasMedicas.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Citas",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    MedicoId = table.Column<int>(type: "int", nullable: false),
-                    PacienteId = table.Column<int>(type: "int", nullable: false),
-                    Fecha = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Citas", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Citas_Medicos_MedicoId",
-                        column: x => x.MedicoId,
-                        principalTable: "Medicos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Citas_Pacientes_PacienteId",
-                        column: x => x.PacienteId,
-                        principalTable: "Pacientes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -267,16 +255,6 @@ namespace WebApiCitasMedicas.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Citas_MedicoId",
-                table: "Citas",
-                column: "MedicoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Citas_PacienteId",
-                table: "Citas",
-                column: "PacienteId");
         }
 
         /// <inheritdoc />
@@ -304,16 +282,16 @@ namespace WebApiCitasMedicas.Migrations
                 name: "HistorialMedicos");
 
             migrationBuilder.DropTable(
-                name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
                 name: "Medicos");
 
             migrationBuilder.DropTable(
                 name: "Pacientes");
+
+            migrationBuilder.DropTable(
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

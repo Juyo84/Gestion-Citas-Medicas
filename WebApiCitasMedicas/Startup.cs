@@ -79,6 +79,15 @@ namespace WebApiCitasMedicas
                 opciones.AddPolicy("EsMedico", politica => politica.RequireClaim("esMedico"));
                 opciones.AddPolicy("EsPaciente", politica => politica.RequireClaim("esPaciente"));
             });
+
+            services.AddCors(opciones =>
+            {
+                opciones.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins("https://apirequest.io").AllowAnyMethod().AllowAnyHeader();
+                    builder.WithOrigins("https://google.com").AllowAnyMethod().AllowAnyHeader();
+                });
+            });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

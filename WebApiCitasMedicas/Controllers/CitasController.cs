@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using WebApiCitasMedicas.Entidades;
@@ -7,6 +9,7 @@ namespace WebApiCitasMedicas.Controllers
 {
     [ApiController]
     [Route("api/citas")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Policy = "EsMedico")]
 
     public class CitasController : ControllerBase
     {
@@ -22,7 +25,7 @@ namespace WebApiCitasMedicas.Controllers
 
         //
         [HttpGet]
-
+        [AllowAnonymous]
         public async Task<ActionResult<List<Cita>>> Get()
         {
 
@@ -52,6 +55,7 @@ namespace WebApiCitasMedicas.Controllers
 
         // Punto 5 Y 7 GET NOMBRE PACIENTE
         [HttpGet("Nombre Paciente")]
+        [AllowAnonymous]
         public async Task<ActionResult<Cita>> Get(string nombrePaciente)
         {
 
@@ -101,6 +105,7 @@ namespace WebApiCitasMedicas.Controllers
 
         //PUNTO 2 LIMITACION DE 100 PACIENTES
         [HttpPost("Crear Cita")]
+        [AllowAnonymous]
         public async Task<ActionResult> Post(Cita cita)
         {
 
