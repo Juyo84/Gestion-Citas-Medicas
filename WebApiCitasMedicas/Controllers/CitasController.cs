@@ -59,7 +59,7 @@ namespace WebApiCitasMedicas.Controllers
         public async Task<ActionResult<Cita>> Get(string nombrePaciente)
         {
 
-            var citas = dbContext.Pacientes.FirstOrDefaultAsync(x => (x.Nombre + " " + x.Apellido_Paterno + " " + x.Apellido_Materno).ToUpper() == nombrePaciente.ToUpper());
+            var citas = dbContext.Pacientes.FirstOrDefaultAsync(x => (x.Nombre + " " + x.Apellido_Paterno + " " + x.Apellido_Materno).ToUpper() == nombrePaciente.ToUpper()); //PACIENTE ID
 
             if (citas == null)
             {
@@ -68,7 +68,7 @@ namespace WebApiCitasMedicas.Controllers
 
             }
 
-            var datosPaciente = dbContext.Citas.Where(x => x.Id == citas.Result.Id).ToList();
+            List<Cita> datosPaciente = dbContext.Citas.Where(x => x.PacienteId == citas.Result.Id).ToList();
 
             if (datosPaciente == null)
             {
@@ -140,6 +140,13 @@ namespace WebApiCitasMedicas.Controllers
 
                 }
 
+                if (listaCita.MedicoId == cita.MedicoId && cita.Fecha.ToString() == listaCita.Fecha.ToString())
+                {
+
+                    return BadRequest("La cita se empalma con otra");
+
+                }
+
             }
 
             if (pacientesMedico.Count() >= 100)
@@ -154,19 +161,6 @@ namespace WebApiCitasMedicas.Controllers
             {
 
                 return BadRequest("La cita debera de ser por hora");
-
-            }
-
-
-            foreach (var pacienteMedico in pacientesMedico)
-            {
-
-                if (pacienteMedico.Fecha.Date == cita.Fecha)
-                {
-
-                    return BadRequest("La cita se empalma con otra");
-
-                }
 
             }
 
@@ -204,14 +198,14 @@ namespace WebApiCitasMedicas.Controllers
 
 
         //PUNTO  MODIFICAR CITAS
-        [HttpPut("Modifciar Citas")]
+        [HttpPut("Modificar Citas")]
         public async Task<ActionResult> Put(Cita cita, int id)
         {
 
             if (cita.Id != id)
             {
 
-                return BadRequest("El id del cita no coincide con el establecido en la url");
+                return BadRequest("El id del la cita no coincide con el establecido en la url");
 
             }
 
@@ -224,9 +218,47 @@ namespace WebApiCitasMedicas.Controllers
 
             }
 
+            var citas = await dbContext.Citas.ToListAsync();
+            
+
+            
             dbContext.Update(cita);
             await dbContext.SaveChangesAsync();
             return Ok();
+
+        }
+
+        [HttpGet("Estadisticas Medicos")]
+        public async Task<ActionResult<Cita>> Get(int id)
+        {
+
+            List<Cita> citasMedico = dbContext.Citas.Where(x => x.MedicoId == id).ToList();
+            int cantidadCitas = 0;
+            DateTime fechaActual = DateTime.Now;
+            DateTime fechaReciente = DateTime.Parse("2500-12-30T11:59:59Z");
+
+            foreach (var citaMedico in citasMedico)
+            {
+
+                if (citaMedico.Fecha >= fechaActual)
+                {
+
+                    cantidadCitas++;
+
+                    if (fechaReciente > citaMedico.Fecha)
+                    {
+
+                        fechaReciente = citaMedico.Fecha;
+
+                    }
+
+                }
+
+            }
+
+            List<String> datosMedico = new List<String> { "MedicoId: " + id.ToString(), "Cantidad de citas: " + cantidadCitas.ToString(), "Siguiente Cita: " + fechaReciente.ToString()};
+
+            return Ok(datosMedico);
 
         }
 

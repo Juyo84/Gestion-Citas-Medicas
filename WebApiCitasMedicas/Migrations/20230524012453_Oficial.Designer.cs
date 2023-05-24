@@ -12,8 +12,8 @@ using WebApiCitasMedicas;
 namespace WebApiCitasMedicas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230522045643_Inicial")]
-    partial class Inicial
+    [Migration("20230524012453_Oficial")]
+    partial class Oficial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
