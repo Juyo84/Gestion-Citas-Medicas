@@ -88,8 +88,19 @@ namespace WebApiCitasMedicas.Controllers
         {
 
             DateTime fechaConv = DateTime.Parse(fecha);
+            List<Cita> citas = new List<Cita> { };
 
-            List<Cita> citas = dbContext.Citas.Where(x => x.Fecha == fechaConv).ToList();
+            if (fecha.Length <= 10)
+            {
+
+                DateTime diaConv = DateTime.Parse(fecha.Substring(0, 10)).Date;
+                citas = dbContext.Citas.Where(x => x.Fecha.Date == diaConv).ToList();
+
+                return Ok(citas);
+
+            }
+            
+            citas = dbContext.Citas.Where(x => x.Fecha == fechaConv).ToList();
 
             if (citas == null)
             {
@@ -217,8 +228,6 @@ namespace WebApiCitasMedicas.Controllers
                 return BadRequest("No existe la cita");
 
             }
-
-            var citas = await dbContext.Citas.ToListAsync();
             
 
             
